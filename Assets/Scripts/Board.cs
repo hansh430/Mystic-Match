@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -22,7 +20,11 @@ public sealed class Board : MonoBehaviour
         {
             for(var x=0; x<Width; x++)
             {
-                Tiles[x, y] = Rows[y].tiles[x];
+                var tile = Rows[y].tiles[x];
+                tile.X = x;
+                tile.Y = y;
+                tile.Item = ItemDatabase.Items[Random.Range(0, ItemDatabase.Items.Length)];
+                Tiles[x, y] = tile;
             }
         }
     }

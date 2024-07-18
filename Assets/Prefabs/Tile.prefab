@@ -134,6 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b221ed8306d31c4aa17a30458302229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  X: 0
+  Y: 0
+  Icon: {fileID: 1139607438563460566}
+  TileButton: {fileID: 5254137181910723696}
 --- !u!1 &2324257355357371894
 GameObject:
   m_ObjectHideFlags: 0

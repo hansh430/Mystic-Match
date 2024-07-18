@@ -7,7 +7,17 @@ public sealed class Tile : MonoBehaviour
 {
     public int X;
     public int Y;
-    public Item ItemType;
     public Image Icon;
     public Button TileButton;
+    private Item item;
+    public Item Item
+    {
+        get => item;
+        set
+        {
+            if (item == value) return;
+            item = value;
+            Icon.sprite = item.sprite;
+        }
+    }
 }
