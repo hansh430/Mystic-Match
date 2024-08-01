@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 1436355845
+    locked: 0
+  - name: Animals
+    uniqueID: 1060811539
+    locked: 0
