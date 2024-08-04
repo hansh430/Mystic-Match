@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float roundTime = 60f;
+   // private UIManager uiMan;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private bool endingRound = false;
+
+    public int CurrentScore;
+    public float DisplayScore;
+    public float ScoreSpeed;
+
+    public int ScoreTarget1, ScoreTarget2, ScoreTarget3;
 }

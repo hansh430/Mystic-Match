@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    [SerializeField] private int width;
-    [SerializeField] private int height;
+    public static Board Instance;
+    public int width;
+    public int Height;
 
     [SerializeField] private GameObject bgTilePrefab;
     [SerializeField] private Transform bgTileParent;
     [SerializeField] private Tile[] tiles;
     [SerializeField] private Transform tileParent;
-    [SerializeField] private float tileSpeed;
 
-    [SerializeField] private BoardState currentState = BoardState.move;
 
     [SerializeField] private Tile bomb;
 
@@ -26,9 +25,13 @@ public class Board : MonoBehaviour
     public MatchFinder matchFind;
 
     [HideInInspector]
-    public RoundManager roundMan;
+    public RoundManager RoundManag;
 
-    private Tile[,] allTiles;
+    public BoardState CurrentState = BoardState.move;
+
+    public float TileSpeed=7f;
+
+    public Tile[,] AllTiles;
 
     private float bonusMulti;
 
@@ -36,12 +39,13 @@ public class Board : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         matchFind = FindObjectOfType<MatchFinder>();
-        roundMan = FindObjectOfType<RoundManager>();
+        RoundManag = FindObjectOfType<RoundManager>();
     }
     private void Start()
     {
-        allTiles = new Tile[width, height];
+        AllTiles = new Tile[width, Height];
 
       //  layoutStore = new Tile[width, height];
 
@@ -51,7 +55,7 @@ public class Board : MonoBehaviour
     {
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < Height; y++)
             {
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(bgTilePrefab, pos, Quaternion.identity, bgTileParent);
@@ -77,14 +81,14 @@ public class Board : MonoBehaviour
     {
         if (currentTilePos.x > 1)
         {
-            if (allTiles[currentTilePos.x - 1, currentTilePos.y].type == tile.type && allTiles[currentTilePos.x - 2, currentTilePos.y].type == tile.type)
+            if (AllTiles[currentTilePos.x - 1, currentTilePos.y].type == tile.type && AllTiles[currentTilePos.x - 2, currentTilePos.y].type == tile.type)
             {
                 return true;
             }
         }
         if (currentTilePos.y > 1)
         {
-            if (allTiles[currentTilePos.x, currentTilePos.y - 1].type == tile.type && allTiles[currentTilePos.x, currentTilePos.y - 2].type == tile.type)
+            if (AllTiles[currentTilePos.x, currentTilePos.y - 1].type == tile.type && AllTiles[currentTilePos.x, currentTilePos.y - 2].type == tile.type)
             {
                 return true;
             }
@@ -101,7 +105,7 @@ public class Board : MonoBehaviour
 
         Tile tile = Instantiate(tileToSpawn, new Vector3(pos.x, pos.y, 0f), Quaternion.identity, tileParent);
         tile.name = "Gem - " + pos.x + ", " + pos.y;
-        allTiles[pos.x, pos.y] = tile;
+        AllTiles[pos.x, pos.y] = tile;
 
         tile.SetTile(pos, this);
     }
