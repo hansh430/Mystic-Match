@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 471043662}
   - component: {fileID: 471043661}
   m_Layer: 0
-  m_Name: Match Finder
+  m_Name: MatchManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b0ad9ee37be05458811cf919453a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentMatches: []
 --- !u!4 &471043662
 Transform:
   m_ObjectHideFlags: 0
@@ -608,8 +609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442e8554122a54c4289b18b7513f8c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 7
-  height: 7
+  Width: 7
+  Height: 7
   bgTilePrefab: {fileID: 1916951170565687301, guid: 86043f341f00e1447a20851767ac7fe4, type: 3}
   bgTileParent: {fileID: 1812848599}
   tiles:
@@ -623,13 +624,13 @@ MonoBehaviour:
   - {fileID: 3922807214469069205, guid: c57e1cea51b4cc449ab41e6dc5614043, type: 3}
   - {fileID: 3922807214469069205, guid: 5bc73edc349a6554ea6ee1e07f7c8e4b, type: 3}
   tileParent: {fileID: 560714134}
-  tileSpeed: 0
-  currentState: 1
   bomb: {fileID: 3922807214469069205, guid: 7abd5eb88a9a1b04995cc72bf647b65e, type: 3}
   bombChance: 2
   bonusAmount: 0.5
-  matchFind: {fileID: 0}
-  roundMan: {fileID: 0}
+  MatchFind: {fileID: 0}
+  RoundManag: {fileID: 0}
+  CurrentState: 1
+  TileSpeed: 7
 --- !u!4 &1762923975
 Transform:
   m_ObjectHideFlags: 0
@@ -710,6 +711,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b542ad14e99c6ad41b8a26f6ff0080a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundTime: 60
+  CurrentScore: 0
+  DisplayScore: 0
+  ScoreSpeed: 0
+  ScoreTarget1: 0
+  ScoreTarget2: 0
+  ScoreTarget3: 0
 --- !u!4 &1908092388
 Transform:
   m_ObjectHideFlags: 0

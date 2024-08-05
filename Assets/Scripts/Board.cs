@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Board : MonoBehaviour
 {
     public static Board Instance;
-    public int width;
+    public int Width;
     public int Height;
 
     [SerializeField] private GameObject bgTilePrefab;
@@ -22,14 +23,14 @@ public class Board : MonoBehaviour
 
 
     [HideInInspector]
-    public MatchFinder matchFind;
+    public MatchManager MatchFind;
 
     [HideInInspector]
     public RoundManager RoundManag;
 
     public BoardState CurrentState = BoardState.move;
 
-    public float TileSpeed=7f;
+    public float TileSpeed = 7f;
 
     public Tile[,] AllTiles;
 
@@ -40,37 +41,37 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        matchFind = FindObjectOfType<MatchFinder>();
+        MatchFind = FindObjectOfType<MatchManager>();
         RoundManag = FindObjectOfType<RoundManager>();
     }
     private void Start()
     {
-        AllTiles = new Tile[width, Height];
+        AllTiles = new Tile[Width, Height];
 
-      //  layoutStore = new Tile[width, height];
+        //  layoutStore = new Tile[width, height];
 
         Setup();
     }
     private void Setup()
     {
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)
             {
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(bgTilePrefab, pos, Quaternion.identity, bgTileParent);
                 bgTile.name = "BG Tile - " + x + ", " + y;
-              
-                    int tileToUse = Random.Range(0, tiles.Length);
 
-                    int iterations = 0;
-                    while (MatchesAt(new Vector2Int(x, y), tiles[tileToUse]) && iterations < 100)
-                    {
-                        tileToUse = Random.Range(0, tiles.Length);
-                        iterations++;
-                    }
+                int tileToUse = Random.Range(0, tiles.Length);
 
-                    SpawnTile(new Vector2Int(x, y), tiles[tileToUse]);
+                int iterations = 0;
+                while (MatchesAt(new Vector2Int(x, y), tiles[tileToUse]) && iterations < 100)
+                {
+                    tileToUse = Random.Range(0, tiles.Length);
+                    iterations++;
+                }
+
+                SpawnTile(new Vector2Int(x, y), tiles[tileToUse]);
             }
         }
 
@@ -108,6 +109,113 @@ public class Board : MonoBehaviour
         AllTiles[pos.x, pos.y] = tile;
 
         tile.SetTile(pos, this);
+    }
+
+    public void DestroyMatches()
+    {
+        for (int i = 0; i < MatchFind.CurrentMatches.Count; i++)
+        {
+            if (MatchFind.CurrentMatches[i] != null)
+            {
+                //  ScoreCheck(MatchFind.CurrentMatches[i]);
+
+                DestroyMatchedTileAt(MatchFind.CurrentMatches[i].posIndex);
+            }
+        }
+
+        StartCoroutine(DecreaseRowCo());
+    }
+    private IEnumerator DecreaseRowCo()
+    {
+        yield return new WaitForSeconds(.2f);
+
+        int nullCounter = 0;
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (AllTiles[x, y] == null)
+                {
+                    nullCounter++;
+                }
+                else if (nullCounter > 0)
+                {
+                    AllTiles[x, y].posIndex.y -= nullCounter;
+                    AllTiles[x, y - nullCounter] = AllTiles[x, y];
+                    AllTiles[x, y] = null;
+                }
+
+            }
+
+            nullCounter = 0;
+        }
+
+        StartCoroutine(FillBoardCo());
+    }
+
+    private IEnumerator FillBoardCo()
+    {
+        yield return new WaitForSeconds(.5f);
+        RefillBoard();
+
+        yield return new WaitForSeconds(.5f);
+
+        MatchFind.FindAllMatches();
+
+        if (MatchFind.CurrentMatches.Count > 0)
+        {
+            bonusMulti++;
+
+            yield return new WaitForSeconds(.5f);
+            DestroyMatches();
+        }
+        else
+        {
+            yield return new WaitForSeconds(.5f);
+            CurrentState = BoardState.move;
+
+            bonusMulti = 0f;
+        }
+    }
+    private void RefillBoard()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                if (AllTiles[x, y] == null)
+                {
+                    int gemToUse = Random.Range(0, tiles.Length);
+
+                    SpawnTile(new Vector2Int(x, y), tiles[gemToUse]);
+                }
+            }
+        }
+    }
+
+
+    private void DestroyMatchedTileAt(Vector2Int pos)
+    {
+        Tile tile = AllTiles[pos.x, pos.y];
+        if (tile != null && tile.isMatched)
+        {
+            switch (tile.type)
+            {
+                case TileType.Bomb:
+                    //play bomb sfx
+                    break;
+                case TileType.Stone:
+                    //play stone sound
+                    break;
+                default:
+                    // default sound
+                    break;
+            }
+            //   Instantiate(tile.destroyEffect, new Vector2(tile.posIndex.x, tile.posIndex.y), Quaternion.identity);
+            Destroy(tile.gameObject);
+            AllTiles[pos.x, pos.y] = null;
+        }
     }
 }
 public enum BoardState { wait, move }

@@ -49,7 +49,7 @@ public class Tile : MonoBehaviour
     private void MovePieces()
     {
         previousPos = posIndex;
-        if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.width - 1)
+        if (swipeAngle < 45 && swipeAngle > -45 && posIndex.x < board.Width - 1)
         {
             otherTile = board.AllTiles[posIndex.x + 1, posIndex.y];
             otherTile.posIndex.x--;
@@ -84,7 +84,7 @@ public class Tile : MonoBehaviour
 
         yield return new WaitForSeconds(.5f);
 
-        //  board.matchFind.FindAllMatches();
+         board.MatchFind.FindAllMatches();
         if (otherTile != null)
         {
             if (!isMatched && !otherTile.isMatched)
@@ -101,7 +101,7 @@ public class Tile : MonoBehaviour
             }
             else
             {
-               // board.DestroyMatches();
+                board.DestroyMatches();
             }
         }
 
@@ -134,4 +134,4 @@ public class Tile : MonoBehaviour
         }
     }
 }
-public enum TileType { Elephant, Girraf, Snake, Parrot, Panada, Penguin, Rabbit, Monkey, Hippo, Bomb }
+public enum TileType { Elephant, Girraf, Snake, Parrot, Panada, Penguin, Rabbit, Monkey, Hippo, Bomb,Stone }
