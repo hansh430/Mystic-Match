@@ -217,5 +217,40 @@ public class Board : MonoBehaviour
             AllTiles[pos.x, pos.y] = null;
         }
     }
+
+    public void ShuffleBoard()
+    {
+        if (CurrentState != BoardState.wait)
+        {
+            CurrentState= BoardState.wait;
+            List<Tile> tileFromBoard = new List<Tile>();
+            for(int x=0; x< Width; x++)
+            {
+                for(int y=0; y< Height; y++)
+                {
+                    tileFromBoard.Add(AllTiles[x, y]);
+                    AllTiles[x, y] = null;
+                }
+            }
+
+            for(int x=0; x< Width; x++)
+            {
+                for (int y=0; y< Height; y++)
+                {
+                    int tileToUse = Random.Range(0, tileFromBoard.Count);
+                    int iteration = 0;
+                    while(MatchesAt(new Vector2Int(x, y), tileFromBoard[tileToUse])&& iteration<100 && tileFromBoard.Count > 1)
+                    {
+                        tileToUse = Random.Range(0,tileFromBoard.Count);    
+                        iteration++;
+                    }
+                    tileFromBoard[tileToUse].SetTile(new Vector2Int(x, y), this);
+                    AllTiles[x,y]= tileFromBoard[tileToUse];
+                    tileFromBoard.RemoveAt(tileToUse);
+                }
+            }
+            StartCoroutine(FillBoardCo());
+        }
+    }
 }
 public enum BoardState { wait, move }

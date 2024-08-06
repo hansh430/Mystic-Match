@@ -38,41 +38,33 @@ public class MatchManager : MonoBehaviour
         {
             Tile leftTile = board.AllTiles[x - 1, y];
             Tile rightTile = board.AllTiles[x + 1, y];
-            if (leftTile != null && rightTile != null)
-            {
-
-                if (leftTile.type == currentTile.type && rightTile.type == currentTile.type)
-                {
-                    currentTile.isMatched = true;
-                    leftTile.isMatched = true;
-                    rightTile.isMatched = true;
-
-                    CurrentMatches.Add(currentTile);
-                    CurrentMatches.Add(leftTile);
-                    CurrentMatches.Add(rightTile);
-                }
-            }
+            SetTileMatch(currentTile, leftTile, rightTile);
         }
     }
+
     private void VerticalMatch(int x, int y, Tile currentTile)
     {
         if (y> 0 && y < board.Height - 1)
         {
             Tile upperTile = board.AllTiles[x, y+1];
             Tile lowerTile = board.AllTiles[x, y-1];
-            if (upperTile != null && lowerTile != null)
+            SetTileMatch(currentTile, upperTile, lowerTile);
+        }
+    }
+    private void SetTileMatch(Tile currentTile, Tile firstTile, Tile secondTile)
+    {
+        if (firstTile != null && secondTile != null)
+        {
+
+            if (firstTile.type == currentTile.type && secondTile.type == currentTile.type)
             {
+                currentTile.isMatched = true;
+                firstTile.isMatched = true;
+                secondTile.isMatched = true;
 
-                if (upperTile.type == currentTile.type && lowerTile.type == currentTile.type)
-                {
-                    currentTile.isMatched = true;
-                    upperTile.isMatched = true;
-                    lowerTile.isMatched = true;
-
-                    CurrentMatches.Add(currentTile);
-                    CurrentMatches.Add(upperTile);
-                    CurrentMatches.Add(lowerTile);
-                }
+                CurrentMatches.Add(currentTile);
+                CurrentMatches.Add(firstTile);
+                CurrentMatches.Add(secondTile);
             }
         }
     }
