@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MatchManager : MonoBehaviour
@@ -30,6 +31,7 @@ public class MatchManager : MonoBehaviour
         {
             CurrentMatches = CurrentMatches.Distinct().ToList();
         }
+        CheckForBombs();
     }
 
     private void HorizontalMatch(int x, int y, Tile currentTile)
@@ -67,6 +69,65 @@ public class MatchManager : MonoBehaviour
                 CurrentMatches.Add(secondTile);
             }
         }
+    }
+    private void CheckForBombs()
+    {
+        for(int i=0; i<CurrentMatches.Count; i++)
+        {
+            Tile currentTile = CurrentMatches[i];
+            int x = currentTile.posIndex.x;
+            int y = currentTile.posIndex.y;
+          
+            if (x > 0)
+            {
+                Tile leftTile = board.AllTiles[x - 1, y];
+                CheckForMarkingBombArea(leftTile);
+            }
+            if(x<board.Width-1)
+            {
+                Tile rightTile = board.AllTiles[x + 1, y];
+                CheckForMarkingBombArea(rightTile);
+            }
+            if(y>0)
+            {
+                Tile lowerTile = board.AllTiles[x, y - 1];
+                CheckForMarkingBombArea(lowerTile);
+            }
+            if(y<board.Height-1)
+            {
+                Tile upperTile = board.AllTiles[x, y + 1];
+                CheckForMarkingBombArea(upperTile);
+            }
+        }
+    }
+
+    private void CheckForMarkingBombArea(Tile tile)
+    {
+        if (tile != null)
+        {
+            if (tile.type == TileType.Bomb)
+            {
+                MarkBombArea(tile.posIndex, tile);
+            }
+        }
+    }
+    private void MarkBombArea(Vector2Int bombPos, Tile theBomb)
+    {
+        for (int x = bombPos.x - theBomb.blastSize; x <= bombPos.x + theBomb.blastSize; x++)
+        {
+            for (int y = bombPos.y - theBomb.blastSize; y <= bombPos.y + theBomb.blastSize; y++)
+            {
+                if (x >= 0 && x < board.Width && y >= 0 && y < board.Height)
+                {
+                    if (board.AllTiles[x, y] != null)
+                    {
+                        board.AllTiles[x, y].isMatched = true;
+                        CurrentMatches.Add(board.AllTiles[x, y]);
+                    }
+                }
+            }
+        }
+        CurrentMatches = CurrentMatches.Distinct().ToList();
     }
 }
 
