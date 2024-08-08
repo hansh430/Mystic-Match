@@ -203,16 +203,16 @@ public class Board : MonoBehaviour
             switch (tile.type)
             {
                 case TileType.Bomb:
-                    //play bomb sfx
+                    AudioManager.Instance.PlayAudio(AudioSourceType.ExplodeSoundAudioSource);
                     break;
                 case TileType.Stone:
-                    //play stone sound
+                    AudioManager.Instance.PlayAudio(AudioSourceType.StoneSoundAudioSource);
                     break;
                 default:
-                    // default sound
+                    AudioManager.Instance.PlayAudio(AudioSourceType.TileSoundAudioSource);
                     break;
             }
-            //   Instantiate(tile.destroyEffect, new Vector2(tile.posIndex.x, tile.posIndex.y), Quaternion.identity);
+            Instantiate(tile.destroyEffect, new Vector2(tile.posIndex.x, tile.posIndex.y), Quaternion.identity);
             Destroy(tile.gameObject);
             AllTiles[pos.x, pos.y] = null;
         }
