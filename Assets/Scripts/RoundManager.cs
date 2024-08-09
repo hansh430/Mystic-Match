@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    public float roundTime = 60f;
-   // private UIManager uiMan;
+    public int CurrentScore;
+
+    private UIManager uiManager;
 
     private bool endingRound = false;
 
-    public int CurrentScore;
-    public float DisplayScore;
-    public float ScoreSpeed;
+    [SerializeField] private float roundTime = 60f;
 
-    public int ScoreTarget1, ScoreTarget2, ScoreTarget3;
+    [SerializeField] private float DisplayScore;
+
+    [SerializeField] private float ScoreSpeed;
+
+    [SerializeField] private int scoreTarget1, scoreTarget2, scoreTarget3;
 }

@@ -102,7 +102,7 @@ MonoBehaviour:
   type: 3
   isMatched: 0
   blastSize: 2
-  scoreValue: 10
+  scoreValue: 5
   destroyEffect: {fileID: 6758400345212257890, guid: e18b0eb8914251044905e28b7d0be89b, type: 3}
   board: {fileID: 0}
 --- !u!61 &4089264837237162082

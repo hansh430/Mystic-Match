@@ -117,8 +117,7 @@ public class Board : MonoBehaviour
         {
             if (MatchFind.CurrentMatches[i] != null)
             {
-                //  ScoreCheck(MatchFind.CurrentMatches[i]);
-
+                ScoreManager.Instance.ScoreCheck(MatchFind.CurrentMatches[i], RoundManag, bonusMulti, bonusAmount);
                 DestroyMatchedTileAt(MatchFind.CurrentMatches[i].posIndex);
             }
         }
