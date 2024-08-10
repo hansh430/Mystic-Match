@@ -28,7 +28,7 @@ public class Tile : MonoBehaviour
         {
             mousePressed = false;
 
-            if (board.CurrentState == BoardState.move && board.RoundManag.roundTime > 0)
+            if (board.CurrentState == BoardState.move && board.RoundManag.RoundTime > 0)
             {
                 finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 CalculateAngle();
@@ -39,7 +39,6 @@ public class Tile : MonoBehaviour
     private void CalculateAngle()
     {
         swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x) * Mathf.Rad2Deg;
-        Debug.Log("swipe angle" + swipeAngle);
         if (Vector3.Distance(firstTouchPosition, finalTouchPosition) > .5f)
         {
             MovePieces();
@@ -126,7 +125,7 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        if (board.CurrentState == BoardState.move && board.RoundManag.roundTime > 0)
+        if (board.CurrentState == BoardState.move && board.RoundManag.RoundTime > 0)
         {
 
             firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
