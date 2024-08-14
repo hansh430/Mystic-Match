@@ -8,11 +8,16 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text levelButtonText;
     [SerializeField] private TMP_Text levelText;
-    private int levelCount = 1;
+    [SerializeField] private TMP_Text oneStarScore;
+    [SerializeField] private TMP_Text twoStarScore;
+    [SerializeField] private TMP_Text threeStarScore;
+    private int levelCount;
 
     private void Awake()
     {
-        levelText.text = "Level " + PlayerPrefs.GetInt("Level", 1);
+        levelCount = PlayerPrefs.GetInt("Level", 1);
+        levelText.text = "Level " + levelCount;
+        SetScorePanel();
     }
     public void LoadMenuScene()
     {
@@ -29,5 +34,10 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("Level", levelCount);
         PlayerPrefs.Save();
     }
-
+    private void SetScorePanel()
+    {
+        oneStarScore.text = PlayerPrefs.GetInt("TargetScore1", 10).ToString();
+        twoStarScore.text = PlayerPrefs.GetInt("TargetScore2", 50).ToString();
+        threeStarScore.text = PlayerPrefs.GetInt("TargetScore3", 100).ToString();
+    }
 }

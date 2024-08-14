@@ -5483,6 +5483,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelButtonText: {fileID: 388967233}
   levelText: {fileID: 331235187}
+  oneStarScore: {fileID: 1046151699}
+  twoStarScore: {fileID: 1781648786}
+  threeStarScore: {fileID: 242906616}
 --- !u!4 &1735932238
 Transform:
   m_ObjectHideFlags: 0
