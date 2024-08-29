@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,12 +15,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject roundOverPanel;
     [SerializeField] private GameObject winStars0, winStars1, winStars2, winStars3;
     [SerializeField] private Material[] skyboxMaterials;
-   
     private void Start()
     {
         SetSkybox();
     }
-
+  
     private void SetSkybox()
     {
         if (skyboxMaterials.Length > 0)
@@ -42,8 +42,17 @@ public class UIManager : MonoBehaviour
     }
     public void RoundOver()
     {
-        roundOverPanel.SetActive(true);
+        MakePanelEnable(roundOverPanel);
         AudioManager.Instance.PlayRoundOver();
+    }
+    public void MakePanelEnable(GameObject panel)
+    {
+        panel.SetActive(true);
+        panel.GetComponent<RectTransform>().DOScale(1f, 0.5f);
+    }
+    public void MakePanelDisable(GameObject panel)
+    {
+        panel.transform.DOScale(0f, 0.5f).onComplete = () => { panel.SetActive(false); };
     }
     public void WinMessage(string message,int noOfStars)
     {
