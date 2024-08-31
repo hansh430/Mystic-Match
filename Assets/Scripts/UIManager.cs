@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
     public void MakePanelEnable(GameObject panel)
     {
         panel.SetActive(true);
-        panel.GetComponent<RectTransform>().DOScale(1f, 0.5f);
+        panel.transform.DOScale(1f, 0.5f);
     }
     public void MakePanelDisable(GameObject panel)
     {
