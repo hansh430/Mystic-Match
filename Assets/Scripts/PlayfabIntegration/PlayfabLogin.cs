@@ -33,8 +33,11 @@ public class PlayfabLogin : MonoBehaviour
     [SerializeField] private GameObject loadInProgress;
     [SerializeField] private TMP_Text vallidationMessage;
     [SerializeField] private List<Button> allButtons = new List<Button>();
+
+    private LevelManager levelManager;
     public void Start()
     {
+        levelManager = FindObjectOfType<LevelManager>();
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         loginUsername.text = PlayerPrefs.GetString(PlayFabConstants.SavedUsername, "");
@@ -158,10 +161,8 @@ public class PlayfabLogin : MonoBehaviour
         ValidationMessage("Register Success!", Color.green);
         PlayerPrefs.SetString("USERNAME", username.text);
         PlayerPrefs.SetString("PW", password.text);
-
-        Debug.Log(result.PlayFabId);
-        Debug.Log(result.Username);
         loadInProgress.SetActive(false);
+        loginPanel.SetActive(true);
     }
 
     #endregion
@@ -171,6 +172,7 @@ public class PlayfabLogin : MonoBehaviour
     {
         ValidationMessage("Login Success!", Color.green);
         PlayerPrefs.SetString(PlayFabConstants.SavedUsername, username.text);
+       // levelManager.GetUserData();
         loadInProgress.SetActive(false);
         string name = null;
         if (result.InfoResultPayload.PlayerProfile != null)

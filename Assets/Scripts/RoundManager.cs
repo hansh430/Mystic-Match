@@ -1,3 +1,6 @@
+using PlayFab;
+using PlayFab.ClientModels;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,20 +93,67 @@ public class RoundManager : MonoBehaviour
     }
     private void SaveLevelData(float roundTime,int targetScore1, int targetScore2, int targetScore3, string levelType)
     {
-        PlayerPrefs.SetFloat("RoundTime", roundTime);
-        PlayerPrefs.SetInt("TargetScore1", targetScore1);
-        PlayerPrefs.SetInt("TargetScore2", targetScore2);
-        PlayerPrefs.SetInt("TargetScore3", targetScore3);
+        SaveLevelDataToPlayfab(roundTime, targetScore1, targetScore2, targetScore3);
         levelManager.SetLevelButtonText(levelType);
-        PlayerPrefs.Save();
     }
     private void GetLevelData()
     {
-        RoundTime= PlayerPrefs.GetFloat("RoundTime", 60);
-        roundTime= PlayerPrefs.GetFloat("RoundTime", 60);
-        scoreTarget1 = PlayerPrefs.GetInt("TargetScore1", 10);
-        scoreTarget2 = PlayerPrefs.GetInt("TargetScore2", 50);
-        scoreTarget3 = PlayerPrefs.GetInt("TargetScore3", 100);
-       
+        GetLevelDataFromPlayfab();
     }
+
+    private void SaveLevelDataToPlayfab(float roundTime, int targetScore1, int targetScore2, int targetScore3)
+    {
+        var request = new PlayFab.ClientModels.UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string>
+        {
+            {"RoundTime", roundTime.ToString()},
+            {"TargetScore1", targetScore1.ToString()},
+            {"TargetScore2", targetScore2.ToString()},
+            {"TargetScore3", targetScore3.ToString()}
+        }
+        };
+
+        PlayFabClientAPI.UpdateUserData(request, OnDataSendSuccessToPlayfab, OnError);
+    }
+
+    private void OnDataSendSuccessToPlayfab(PlayFab.ClientModels.UpdateUserDataResult result)
+    {
+        Debug.Log("Successfully saved level data to PlayFab!");
+    }
+
+    private void OnError(PlayFabError error)
+    {
+        Debug.LogError("Error saving data to PlayFab: " + error.GenerateErrorReport());
+    }
+
+    private void GetLevelDataFromPlayfab()
+    {
+        PlayFabClientAPI.GetUserData(new PlayFab.ClientModels.GetUserDataRequest(), OnDataReceived, OnError);
+    }
+
+    private void OnDataReceived(PlayFab.ClientModels.GetUserDataResult result)
+    {
+        if (result.Data != null && result.Data.ContainsKey("RoundTime"))
+        {
+            RoundTime = float.Parse(result.Data["RoundTime"].Value);
+            roundTime = float.Parse(result.Data["RoundTime"].Value);
+            scoreTarget1 = int.Parse(result.Data["TargetScore1"].Value);
+            scoreTarget2 = int.Parse(result.Data["TargetScore2"].Value);
+            scoreTarget3 = int.Parse(result.Data["TargetScore3"].Value);
+
+            Debug.Log("Successfully retrieved level data from PlayFab!");
+        }
+        else
+        {
+            Debug.Log("No data found. Using default values.");
+            RoundTime = 60f;
+            roundTime = 60f;
+            scoreTarget1 = 10;
+            scoreTarget2 = 50;
+            scoreTarget3 = 100;
+        }
+    }
+
+
 }
