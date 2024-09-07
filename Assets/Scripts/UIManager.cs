@@ -1,9 +1,11 @@
 using DG.Tweening;
+using PlayFab;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -72,5 +74,10 @@ public class UIManager : MonoBehaviour
                 winStars3.SetActive(true);
                 break;
         }
+    }
+    public void OnClickLogOutButton()
+    {
+        PlayFabClientAPI.ForgetAllCredentials();
+        SceneManager.LoadSceneAsync(0);
     }
 }

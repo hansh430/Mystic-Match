@@ -25,6 +25,7 @@ public class PlayfabLogin : MonoBehaviour
     [SerializeField] private TMP_InputField password;
     [SerializeField] private TMP_InputField verifyPassword;
     [SerializeField] private TMP_InputField email;
+    [SerializeField] private GameObject registerPanel;
 
     [Header("Reset Password UI")]
     [SerializeField] private TMP_InputField emailInput;
@@ -163,6 +164,7 @@ public class PlayfabLogin : MonoBehaviour
         PlayerPrefs.SetString("PW", password.text);
         loadInProgress.SetActive(false);
         loginPanel.SetActive(true);
+        registerPanel.SetActive(false);
     }
 
     #endregion

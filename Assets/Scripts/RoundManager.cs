@@ -41,7 +41,7 @@ public class RoundManager : MonoBehaviour
     }
     private void Timer()
     {
-        if (RoundTime > 0)
+        if (RoundTime > 0 && !LevelManager.canPauseTime)
         {
             RoundTime -= Time.deltaTime;
 

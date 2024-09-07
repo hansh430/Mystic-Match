@@ -17,7 +17,7 @@ public class PlayfabLeaderboardManager : MonoBehaviour
     {
         Instance = this;
     }
-    public void SendLeaderboard(int score)
+    public void SendLeaderboard(int level)
     {
         var request = new UpdatePlayerStatisticsRequest
         {
@@ -25,8 +25,8 @@ public class PlayfabLeaderboardManager : MonoBehaviour
             {
                 new StatisticUpdate
                 {
-                    StatisticName="PlatformScore",
-                    Value=score
+                    StatisticName="PlayerLevel",
+                    Value=level
                 }
             }
         };
@@ -46,7 +46,7 @@ public class PlayfabLeaderboardManager : MonoBehaviour
     {
         var request = new GetLeaderboardRequest
         {
-            StatisticName = "PlatformScore",
+            StatisticName = "PlayerLevel",
             StartPosition = 0,
             MaxResultsCount = 10
         };
@@ -68,9 +68,8 @@ public class PlayfabLeaderboardManager : MonoBehaviour
         {
             GameObject newGo = Instantiate(leaderBoradPrefab, leaderBoardParent);
             TMP_Text[] texts = newGo.GetComponentsInChildren<TMP_Text>();
-            texts[0].text = (item.Position + 1).ToString();
+            texts[0].text = item.StatValue.ToString();
             texts[1].text = item.DisplayName;
-            texts[2].text = item.StatValue.ToString();
             leaderBoardItems.Add(newGo);
         }
     }

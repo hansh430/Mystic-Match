@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TMP_Text twoStarScore;
     [SerializeField] private TMP_Text threeStarScore;
     private int levelCount;
-
+    public static bool canPauseTime=false;
     private void Awake()
     {
         GetUserData();
@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
 
         levelText.text = "Level " + levelCount;
         SetScorePanel(result);
+        PlayfabLeaderboardManager.Instance.SendLeaderboard(levelCount);
     }
 
     private void OnError(PlayFabError error)
@@ -85,5 +86,13 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void PauseGame()
+    {
+        canPauseTime = true;
+    }
+    public void ResumeGame()
+    {
+        canPauseTime = false;
     }
 }
