@@ -26,11 +26,11 @@ public class MenuManager : MonoBehaviour
     public void MakePanelEnable(GameObject panel)
     {
         panel.SetActive(true);
-        panel.transform.DOScale(1f, 0.5f);
+        panel.transform.DOScale(1f, 0.35f);
     }
     public void MakePanelDisable(GameObject panel)
     {
-        panel.transform.DOScale(0f, 0.5f).onComplete = () => { panel.SetActive(false); };
+        panel.transform.DOScale(0f, 0.35f).onComplete = () => { panel.SetActive(false); };
     }
     public void PlayClickSound(AudioClip audioClip)
     {

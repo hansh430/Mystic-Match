@@ -231,7 +231,8 @@ public class PlayfabLogin : MonoBehaviour
 
     private void OnError(PlayFabError error)
     {
-        Debug.Log(error);
+        ValidationMessage("Invalid Credential!", Color.red);
+        loadInProgress.SetActive(false);
     }
 
     private readonly GetPlayerCombinedInfoRequestParams _loginInfoParams =
