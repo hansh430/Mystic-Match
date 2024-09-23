@@ -15,10 +15,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text winMessageText;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private GameObject roundOverPanel;
+    [SerializeField] private GameObject addPanel;
     [SerializeField] private GameObject winStars0, winStars1, winStars2, winStars3;
     [SerializeField] private Material[] skyboxMaterials;
+    private LevelManager levelManager;
     private void Start()
     {
+        levelManager=FindObjectOfType<LevelManager>();
         SetSkybox();
     }
   
@@ -46,6 +49,16 @@ public class UIManager : MonoBehaviour
     {
         MakePanelEnable(roundOverPanel);
         AudioManager.Instance.PlayRoundOver();
+    }
+    public void WatchAdd()
+    {
+        levelManager.PauseGame();
+        MakePanelEnable(addPanel);
+    }
+    public void CloseAdd()
+    {
+        levelManager.ResumeGame();
+        MakePanelDisable(addPanel);
     }
     public void MakePanelEnable(GameObject panel)
     {

@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TMP_Text twoStarScore;
     [SerializeField] private TMP_Text threeStarScore;
     private int levelCount;
-    public static bool canPauseTime=false;
+    public bool canPauseTime=false;
     private void Awake()
     {
         GetUserData();

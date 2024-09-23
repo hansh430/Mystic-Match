@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Variant 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5484038648245561250, guid: e8af5890185806a4787bdfdd790f5b2e, type: 3}
+      propertyPath: tileIndex
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7449119734398269522, guid: e8af5890185806a4787bdfdd790f5b2e, type: 3}
       propertyPath: type
       value: 8

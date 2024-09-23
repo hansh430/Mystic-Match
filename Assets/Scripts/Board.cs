@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -21,6 +22,7 @@ public class Board : MonoBehaviour
 
     [SerializeField] private float bonusAmount = .5f;
 
+    [SerializeField] private TMP_Text suffleCountText;
 
     [HideInInspector]
     public MatchManager MatchFind;
@@ -38,18 +40,19 @@ public class Board : MonoBehaviour
 
     private Tile[,] layoutStore;
 
+    public int suffleCount = 10;
+    private UIManager uiManager;
     private void Awake()
     {
         Instance = this;
         MatchFind = FindObjectOfType<MatchManager>();
         RoundManag = FindObjectOfType<RoundManager>();
+        uiManager= FindObjectOfType<UIManager>();
     }
     private void Start()
     {
         AllTiles = new Tile[Width, Height];
-
-        //  layoutStore = new Tile[width, height];
-
+        suffleCountText.text = "Suffle " + suffleCount;
         Setup();
     }
     private void Setup()
@@ -107,7 +110,6 @@ public class Board : MonoBehaviour
         Tile tile = Instantiate(tileToSpawn, new Vector3(pos.x, pos.y, 0f), Quaternion.identity, tileParent);
         tile.name = "Gem - " + pos.x + ", " + pos.y;
         AllTiles[pos.x, pos.y] = tile;
-
         tile.SetTile(pos, this);
     }
 
@@ -219,37 +221,48 @@ public class Board : MonoBehaviour
 
     public void ShuffleBoard()
     {
-        if (CurrentState != BoardState.wait)
+        if (CurrentState != BoardState.wait && suffleCount>0)
         {
-            CurrentState= BoardState.wait;
+            CurrentState = BoardState.wait;
             List<Tile> tileFromBoard = new List<Tile>();
-            for(int x=0; x< Width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for(int y=0; y< Height; y++)
+                for (int y = 0; y < Height; y++)
                 {
                     tileFromBoard.Add(AllTiles[x, y]);
                     AllTiles[x, y] = null;
                 }
             }
 
-            for(int x=0; x< Width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y=0; y< Height; y++)
+                for (int y = 0; y < Height; y++)
                 {
                     int tileToUse = Random.Range(0, tileFromBoard.Count);
                     int iteration = 0;
-                    while(MatchesAt(new Vector2Int(x, y), tileFromBoard[tileToUse])&& iteration<100 && tileFromBoard.Count > 1)
+                    while (MatchesAt(new Vector2Int(x, y), tileFromBoard[tileToUse]) && iteration < 100 && tileFromBoard.Count > 1)
                     {
-                        tileToUse = Random.Range(0,tileFromBoard.Count);    
+                        tileToUse = Random.Range(0, tileFromBoard.Count);
                         iteration++;
                     }
                     tileFromBoard[tileToUse].SetTile(new Vector2Int(x, y), this);
-                    AllTiles[x,y]= tileFromBoard[tileToUse];
+                    AllTiles[x, y] = tileFromBoard[tileToUse];
                     tileFromBoard.RemoveAt(tileToUse);
                 }
             }
             StartCoroutine(FillBoardCo());
+            suffleCount--;
+            UpdateShuffleCountText();
         }
+        else if (suffleCount == 0)
+        {
+            uiManager.WatchAdd();
+        }
+    }
+
+    public void UpdateShuffleCountText()
+    {
+        suffleCountText.text = "Suffle " + suffleCount;
     }
 }
 public enum BoardState { wait, move }
