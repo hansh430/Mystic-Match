@@ -52,7 +52,7 @@ public class Board : MonoBehaviour
     private void Start()
     {
         AllTiles = new Tile[Width, Height];
-        suffleCountText.text = "Suffle " + suffleCount;
+       //suffleCountText.text = "Suffle " + suffleCount;
         Setup();
     }
     private void Setup()
@@ -221,7 +221,7 @@ public class Board : MonoBehaviour
 
     public void ShuffleBoard()
     {
-        if (CurrentState != BoardState.wait && suffleCount>0)
+        if (CurrentState != BoardState.wait /* && suffleCount>0*/)
         {
             CurrentState = BoardState.wait;
             List<Tile> tileFromBoard = new List<Tile>();
@@ -252,11 +252,11 @@ public class Board : MonoBehaviour
             }
             StartCoroutine(FillBoardCo());
             suffleCount--;
-            UpdateShuffleCountText();
+          //  UpdateShuffleCountText();
         }
         else if (suffleCount == 0)
         {
-            uiManager.WatchAdd();
+           // uiManager.WatchAdd();
         }
     }
 

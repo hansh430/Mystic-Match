@@ -11,7 +11,11 @@ PrefabInstance:
     - target: {fileID: 1813118512179564761, guid: e8af5890185806a4787bdfdd790f5b2e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8dbdee251bee98c45b695ce8153681a3, type: 3}
+      objectReference: {fileID: 21300000, guid: a46ddf70cd1da864fa6c5d52e3d576c9, type: 3}
+    - target: {fileID: 4089264837237162082, guid: e8af5890185806a4787bdfdd790f5b2e, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.6969697
+      objectReference: {fileID: 0}
     - target: {fileID: 4814213497318372831, guid: e8af5890185806a4787bdfdd790f5b2e, type: 3}
       propertyPath: m_Name
       value: Tile Variant 2

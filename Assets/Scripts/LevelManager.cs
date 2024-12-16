@@ -27,10 +27,12 @@ public class LevelManager : MonoBehaviour
         if (result.Data != null && result.Data.ContainsKey("Level"))
         {
             levelCount = int.Parse(result.Data["Level"].Value);
+            Debug.Log("1");
         }
         else
         {
             levelCount = 1;
+            Debug.Log("2");
         }
 
         levelText.text = "Level " + levelCount;

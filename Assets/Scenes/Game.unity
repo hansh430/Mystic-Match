@@ -4332,7 +4332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6306560293856730811, guid: 102587a616fdbb644b07a242775f96b6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1434823.5
+      value: 1450246.6
       objectReference: {fileID: 0}
     - target: {fileID: 7801393810338126385, guid: 102587a616fdbb644b07a242775f96b6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -4506,7 +4506,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shuffle 10
+  m_text: Shuffle
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 21997c3eb37f98146b41990d2eb88e2e, type: 2}
   m_sharedMaterial: {fileID: -1903665956968020345, guid: 21997c3eb37f98146b41990d2eb88e2e, type: 2}
